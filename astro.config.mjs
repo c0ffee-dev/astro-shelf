@@ -8,10 +8,12 @@ import tailwindcss from '@tailwindcss/vite';
 import vue from '@astrojs/vue';
 
 import sitemap from '@astrojs/sitemap';
+import { Langs } from './src/i18n/config';
+import config from './typewriter.config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tw.amase.cc',
+  site: config.site.baseUrl,
   integrations: [icon(), vue(), sitemap()],
   vite: {
     plugins: [tailwindcss(), yaml()],
@@ -22,8 +24,8 @@ export default defineConfig({
     }
   },
   i18n: {
-    defaultLocale: 'ja',
-    locales: ['ja', 'en', 'ko'],
+    defaultLocale: config.i18n.defaultLang,
+    locales: Langs,
     routing: {
       prefixDefaultLocale: false,
     }

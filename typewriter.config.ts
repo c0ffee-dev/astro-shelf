@@ -4,6 +4,7 @@ import type { Config } from './src/types';
 
 const config: Config = {
     site: {
+        baseUrl: 'https://astro-shelf.vercel.app',
         name: 'Astro-Shelf',
         header_sitename: '_shelf.astro',
         copyright: 'c0ffee-dev'
