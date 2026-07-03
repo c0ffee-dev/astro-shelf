@@ -18,15 +18,15 @@ const config: Config = {
         fonts: {
             "ja": {
                 name: 'Noto Sans JP',
-                font: fs.readFileSync(path.resolve('public/fonts/NotoSansJP-Bold.ttf'))
+                font: fs.readFileSync(path.resolve('public/fonts/noto/NotoSansJP-Bold.ttf'))
             },
             "en": {
                 name: 'Inter',
-                font: fs.readFileSync(path.resolve('public/fonts/Inter_18pt-Bold.ttf'))
+                font: fs.readFileSync(path.resolve('public/fonts/inter/Inter_18pt-Bold.ttf'))
             },
 //            "ko": {
 //                name: 'Noto Sans KR',
-//                font: fs.readFileSync(path.resolve('public/fonts/NotoSansKR-Bold.ttf'))
+//                font: fs.readFileSync(path.resolve('public/fonts/noto/NotoSansKR-Bold.ttf'))
 //            },
         }
     },
