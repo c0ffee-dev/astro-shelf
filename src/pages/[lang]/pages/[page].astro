@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import { defaultLang, Langs } from "../../../i18n/config";
+import ArchivePage from "../../../shared/pages/ArchivePage.astro";
+
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+  const allPaginatedPaths = [];
+  for (const lang of Langs) {
+    if (lang === defaultLang) {
+      continue;
+    }
+
+    try {
+      const collectionKey = (lang ? `blog-${lang}` : "blog") as any as "blog";
+      const allPosts = await getCollection(collectionKey);
+
+      const sortedPosts = allPosts.sort(
+        (a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf(),
+      );
+
+      const paginatedPathsForLang = paginate(sortedPosts, {
+        pageSize: 5,
+        params: { lang },
+      });
+
+      allPaginatedPaths.push(...paginatedPathsForLang);
+    } catch (e) {
+      console.warn(`Collection blog-${lang} not found.`);
+    }
+  }
+
+  return allPaginatedPaths;
+}
+
+const { lang } = Astro.params;
+const { page } = Astro.props;
+---
+
+<ArchivePage page={page} lang={lang} />

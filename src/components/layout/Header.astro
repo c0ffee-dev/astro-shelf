@@ -1,0 +1,86 @@
+---
+import { Icon } from "astro-icon/components";
+import config from "../../../typewriter.config";
+
+import { defaultLang, Langs, type Lang } from "../../i18n/config";
+
+interface Props {
+    currentLocale: Lang;
+}
+
+const locales: string[] = Langs ?? [];
+const defaultLocale = defaultLang ?? "ja";
+
+locales.sort((a, b) => {
+  if (a === defaultLocale) return -1;
+  if (b === defaultLocale) return 1;
+  return 0;
+});
+
+const { currentLocale } = Astro.props;
+
+const rootPath = currentLocale === defaultLocale ? "/" : `/${currentLocale}`;
+const searchPath =
+    currentLocale === defaultLocale ? "/search" : `/${currentLocale}/search`;
+---
+
+<header
+    class="max-w-2xl w-full mx-auto px-6 py-8 border-b border-dashed border-ink-light/20 dark:border-ink-dark/20 flex justify-between items-center"
+>
+    <a
+        href={rootPath}
+        class="text-xl font-bold hover:opacity-70 transition-opacity"
+        >{config.site.header_sitename}</a
+    >
+
+    <nav class="text-xs opacity-80 flex items-center gap-1">
+        <a
+            href={searchPath}
+            class="text-sm opacity-80 hover:opacity-100 transition-opacity mr-2"
+            aria-label="Search"
+        >
+            <Icon name="lucide:search" />
+        </a>
+
+        <button
+            id="theme-toggle"
+            class="text-sm opacity-80 hover:opacity-100 transition-opacity mr-2 cursor-pointer"
+            aria-label="Toggle theme"
+        >
+            <span id="theme-icon-light" class="hidden"
+                ><Icon name="lucide:sun" /></span
+            >
+            <span id="theme-icon-dark" class="hidden"
+                ><Icon name="lucide:moon" /></span
+            >
+            <span id="theme-icon-system" class="hidden"
+                ><Icon name="lucide:monitor" /></span
+            >
+        </button>
+
+        <span class="text-ink-light/40 dark:text-ink-dark/40">[</span>
+        {
+            locales.map((locale, index) => {
+                const isCurrent = locale === currentLocale;
+                const href = locale === defaultLocale ? "/" : `/${locale}/`;
+
+                return (
+                    <>
+                        <a
+                            href={isCurrent ? '#' : href}
+                            class={`hover:underline uppercase ${isCurrent ? "font-bold" : "opacity-60"}`}
+                        >
+                            {locale}
+                        </a>
+                        {index < locales.length - 1 && (
+                            <span class="text-ink-light/40 dark:text-ink-dark/40">
+                                /
+                            </span>
+                        )}
+                    </>
+                );
+            })
+        }
+        <span class="text-ink-light/40 dark:text-ink-dark/40">]</span>
+    </nav>
+</header>

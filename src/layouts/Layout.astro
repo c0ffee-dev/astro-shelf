@@ -1,0 +1,49 @@
+---
+import "../styles/global.css";
+
+import { defaultLang, Langs, type Lang } from "../i18n/config";
+import ThemeSwitcherScript from "../components/ThemeSwitcherScript.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import BaseHead from "../components/layout/BaseHead.astro";
+
+interface Props {
+  title?: string;
+  lang?: string;
+}
+const locales: string[] = Langs ?? [];
+const defaultLocale = defaultLang ?? "ja";
+
+const pathname = Astro.url.pathname;
+const segments = pathname.split("/").filter(Boolean);
+const currentLocale = locales.includes(segments[0])
+  ? segments[0]
+  : defaultLocale;
+const { title } = Astro.props;
+
+---
+
+<html lang={currentLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <BaseHead title={title} />
+
+    <slot name="head" />
+  </head>
+  <body
+    class="bg-paper-light dark:bg-paper-dark text-ink-light dark:text-ink-dark font-mono selection:bg-ink-light selection:text-paper-light dark:selection:bg-ink-dark dark:selection:text-paper-dark antialiased min-h-screen flex flex-col transition-colors duration-200"
+  >
+
+    <Header currentLocale={currentLocale as Lang} />
+
+    <main class="max-w-2xl w-full mx-auto px-6 py-12 flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <ThemeSwitcherScript />
+  </body>
+</html>

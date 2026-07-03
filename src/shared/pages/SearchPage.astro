@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations } from '../../i18n/utils';
+import Search from '../../components/Search.vue';
+
+import type { Lang } from '../../i18n/config';
+
+interface Props {
+    lang?: string
+}
+
+const { lang } = Astro.props;
+const t = useTranslations((lang as Lang));
+
+const searchLabels = {
+  placeholder: t('search.placeholder') || 'Search articles...',
+  typing: t('search.typing') || 'Start typing to search...',
+  noResults: t('search.noResults') || 'No results found.',
+  searching: t('search.searching') || 'Searching...'
+};
+---
+
+<Layout title="Search | Capella" lang={lang}>
+  <Search labels={searchLabels} client:only />
+</Layout>

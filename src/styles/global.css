@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-paper-light: #fcfcfc;
+  --color-paper-dark: #1a1a1a;
+
+  --color-ink-light: #222222;
+  --color-ink-dark: #e0e0e0;
+}
+
+@variant dark (&:where(.dark, .dark *));

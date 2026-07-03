@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+
+import IndexPage from '../../shared/pages/IndexPage.astro';
+import { defaultLang, Langs, type Lang } from '../../i18n/config';
+
+export async function getStaticPaths() {
+
+  const allPaths = [];
+
+  for (const lang of Langs) {
+    if (lang === defaultLang) {
+      continue;
+    }
+
+    try {
+      const collectionKey = (lang ? `blog-${lang}` : 'blog') as any as 'blog';
+      const allPosts = await getCollection(collectionKey);
+      const sortedPosts = allPosts.sort(
+        (a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf()
+      );
+
+      allPaths.push({
+        params: { lang },
+        props: { posts: sortedPosts }
+      });
+    } catch (e) {
+      console.warn(`Collection blog-${lang} not found.`);
+    }
+  }
+
+  return allPaths;
+}
+
+const { lang } = Astro.params;
+---
+
+<IndexPage lang={lang as Lang} />

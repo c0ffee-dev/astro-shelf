@@ -1,0 +1,33 @@
+<Fragment>
+    <style id="fouc-defender">
+        html {
+            background-color: #fcfcfc;
+            color: #222222;
+        }
+        html.dark {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html:not([data-theme="light"]) {
+                background-color: #1a1a1a;
+                color: #e0e0e0;
+            }
+        }
+    </style>
+    <script is:inline>
+        const savedTheme = localStorage.getItem("theme") || "system";
+        const systemIsDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+        ).matches;
+        if (
+            savedTheme === "dark" ||
+            (savedTheme === "system" && systemIsDark)
+        ) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    </script>
+</Fragment>

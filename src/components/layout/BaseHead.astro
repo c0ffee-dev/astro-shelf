@@ -1,0 +1,25 @@
+---
+import config from "../../../typewriter.config";
+import NoFOUC from "../NoFOUC.astro";
+
+interface Props {
+  title?: string;
+}
+
+const pathname = Astro.url.pathname;
+const ogType = pathname === "/" ? "website" : "article";
+
+const { title } = Astro.props;
+---
+
+<Fragment>
+    <title>{title} - {config.site.name}</title>
+
+    <meta property="og:title" content={title} />
+    <link rel="canonical" href={Astro.url.href} />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={config.site.name} />
+
+    <NoFOUC />
+</Fragment>

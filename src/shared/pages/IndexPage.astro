@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const {lang} = Astro.props;
+const t = useTranslations(lang);
+
+const basePath = lang ? `/${lang}` : '';
+const colName = (lang ? `blog-${lang}` : 'blog') as any as 'blog';
+const allPosts = await getCollection(colName);
+const recentPosts = allPosts
+  .sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf())
+  .slice(0, 3);
+---
+
+<Layout title="Home" lang={lang}>
+  <article class="space-y-8">
+    <section class="space-y-6">
+      <h2 class="text-xl font-bold border-b border-ink-light/40 dark:border-ink-dark/40 w-fit pb-1">
+        {t('index.recent_posts')}
+      </h2>
+
+      <ul class="space-y-4">
+        {recentPosts.map((post) => {
+          const { title, createdAt } = post.data;
+          const dateString = new Date(createdAt).toISOString().split('T')[0];
+
+          return (
+            <li class="flex flex-col md:flex-row md:items-baseline justify-between gap-1 md:gap-4">
+              <div class="flex items-baseline gap-2 min-w-0">
+                <a href={`${basePath}/articles/${post.id}`} class="text-base font-medium hover:underline decoration-dashed underline-offset-4 truncate text-ink-light dark:text-ink-dark">
+                  {title}
+                </a>
+              </div>
+              <div class="hidden md:block flex-1 border-b border-dotted border-ink-light/20 dark:border-ink-dark/20 mx-2" />
+              <time datetime={createdAt.toISOString()} class="text-sm opacity-60 shrink-0">
+                {dateString}
+              </time>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div class="pt-4 text-right">
+        <a
+          href=`${basePath}/pages/1`
+          class="inline-block text-sm border border-ink-light/30 dark:border-ink-dark/30 px-4 py-1.5 rounded-sm bg-ink-light/5 dark:bg-ink-dark/5 hover:bg-ink-light dark:hover:bg-ink-dark hover:text-paper-light dark:hover:text-paper-dark transition-all duration-200"
+        >
+          {t('index.view_all_posts')} [->]
+        </a>
+      </div>
+    </section>
+  </article>
+</Layout>

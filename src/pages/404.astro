@@ -1,0 +1,69 @@
+---
+import config from "../../typewriter.config";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>404 - Page Not Found</title>
+
+    <style id="fouc-defender">
+      html { background-color: #fcfcfc; color: #222222; }
+      html.dark { background-color: #1a1a1a; color: #e0e0e0; }
+      @media (prefers-color-scheme: dark) {
+        html:not([data-theme="light"]) { background-color: #1a1a1a; color: #e0e0e0; }
+      }
+    </style>
+
+    <script is:inline>
+      (function() {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedTheme === 'dark' || (savedTheme === 'system' && systemIsDark);
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      })();
+    </script>
+  </head>
+
+  <body
+    class="bg-paper-light dark:bg-paper-dark text-ink-light dark:text-ink-dark font-mono selection:bg-ink-light selection:text-paper-light dark:selection:bg-ink-dark dark:selection:text-paper-dark antialiased min-h-screen flex flex-col transition-colors duration-200"
+  >
+    <header
+      class="max-w-2xl w-full mx-auto px-6 py-8 border-b border-dashed border-ink-light/20 dark:border-ink-dark/20 flex justify-between items-center"
+    >
+      <a
+        href="/"
+        class="text-xl font-bold hover:opacity-70 transition-opacity"
+        >{config.site.header_sitename}</a
+      >
+    </header>
+
+    <main class="max-w-2xl w-full mx-auto px-6 py-24 flex-1 flex flex-col items-center justify-center text-center">
+      <div class="space-y-4">
+        <h1 class="text-6xl font-bold tracking-wider opacity-40">404</h1>
+        <h2 class="text-xl font-semibold">Page Not Found</h2>
+        <p class="text-sm opacity-60 max-w-sm mx-auto pt-2">
+          The page you are looking for could not be found, or it may have been moved or deleted.
+        </p>
+        <div class="pt-8">
+          <a
+            href="/"
+            class="inline-block text-sm border border-ink-light/30 dark:border-ink-dark/30 px-4 py-1.5 rounded-sm bg-ink-light/5 dark:bg-ink-dark/5 hover:bg-ink-light dark:hover:bg-ink-dark hover:text-paper-light dark:hover:text-paper-dark transition-all duration-200"
+          >
+            &lt;- Return to Home
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      class="grid grid-cols-1 max-w-2xl w-full mx-auto px-6 py-8 border-t border-dashed border-ink-light/20 dark:border-ink-dark/20 text-xs text-center opacity-60"
+    >
+      <span>© {new Date().getFullYear()} {config.site.copyright}</span>
+    </footer>
+  </body>
+</html>

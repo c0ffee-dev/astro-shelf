@@ -1,0 +1,24 @@
+---
+import SearchPage from '../../shared/pages/SearchPage.astro';
+import { defaultLang, Langs } from '../../i18n/config';
+
+export async function getStaticPaths() {
+  const allPaths = [];
+  for (const lang of Langs) {
+    if (lang === defaultLang) {
+      continue;
+    }
+
+    try {
+      allPaths.push({
+        params: { lang }
+      });
+    } catch (e) {}
+  }
+  return allPaths;
+}
+
+const { lang } = Astro.params;
+---
+
+<SearchPage lang={lang} />

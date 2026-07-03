@@ -1,0 +1,31 @@
+---
+import config from "../../../typewriter.config";
+---
+
+<footer
+    class="grid grid-cols-1 max-w-2xl w-full mx-auto px-6 py-8 border-t border-dashed border-ink-light/20 dark:border-ink-dark/20 text-xs text-center opacity-60"
+>
+    <span>© {new Date().getFullYear()} {config.site.copyright}</span>
+    <span>
+        Powered by <a
+            href="https://astro.build"
+            class="poweredby_link"
+            target="_blank"
+            rel="noopener noreferer">Astro</a
+        > with <a
+            href="https://github.com/c0ffee-dev/astro-shelf"
+            class="poweredby_link"
+            target="_blank"
+            rel="noopener noreferer">Shelf</a
+        >
+    </span>
+</footer>
+
+
+<style>
+  @import "../../styles/global.css";
+
+  .poweredby_link {
+    @apply underline decoration-dashed hover:opacity-70;
+  }
+</style>
